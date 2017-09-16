@@ -43,7 +43,9 @@ void MWDevice2String(MWDevice *device, char *buffer) {
     //status
     sprintf(s_status, "%s", MWDeviceStatus2String(device->status));
     //dataBuffer
+    s_dataBuffer[0] = '\0';
     for (i = 0; i < device->dataBufferSize; ++i) {
+        s_data[0] = '\0';
         sprintf(s_data, "0x%x, ", device->dataBuffer[i]);
         strcat(s_dataBuffer, s_data);
     }
