@@ -18,13 +18,13 @@ SOURCES=$(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(SOURCES:.c=.o)
 
 all: $(OBJECTS) version
-	$(CC) $(CFLAGS) $(MAIN) $(addprefix $(OBJDIR)/,$(notdir $(OBJECTS))) -o $(EXECPATH)
+	$(CC) $(CFLAGS) $(MAIN) $(addprefix $(OBJDIR)/,$(notdir $(OBJECTS))) -o $(EXECPATH) -lm
 
 show_raw_main:
 	$(CC) $(CFLAGS) -E $(MAIN)
 
 %.o: %.c | mkdirobjdir
-	$(COMPILE.c) -o $(addprefix $(OBJDIR)/,$(notdir $@)) $<
+	$(COMPILE.c) -o $(addprefix $(OBJDIR)/,$(notdir $@)) $< -lm
 
 mkdirobjdir:
 	mkdir -p $(OBJDIR)
