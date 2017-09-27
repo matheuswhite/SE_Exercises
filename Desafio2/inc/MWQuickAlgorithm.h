@@ -21,7 +21,7 @@ int32_t GetMean(Mean *mean) {
     return finalMean;
 }
 
-int32_t QuickPoly(int32_t x) {
+int32_t QuickCos(int32_t x) {
     //1 + (x^2/720)*(-360 + (x^2)*(30 - x^2))
     int32_t x2 = x*x;
 
@@ -31,18 +31,18 @@ int32_t QuickPoly(int32_t x) {
 clock_t RunQuickAlgorithm(int32_t *x) {
     clock_t start_time = 0, end_time = 0;
     int32_t mean = 0;
-    int32_t qpoly = 0;
-    Mean qpolyMean;
+    int32_t qcos = 0;
+    Mean qcosMean;
 
     start_time = clock();
-    for (int j = 0; j < MAX_POLY_ITERATIONS; j++) {
-        //calc poly
-        qpoly = QuickPoly(x[j]);
-        //add qpoly to mean
-        AddSampleToMean(&qpolyMean, qpoly);
+    for (int j = 0; j < MAX_COS_ITERATIONS; j++) {
+        //calc cos
+        qcos = QuickCos(x[j]);
+        //add qcos to mean
+        AddSampleToMean(&qcosMean, qcos);
         //when j is divisible by 32, calc mean
         if ((j & 63) == 0) {
-            mean += GetMean(&qpolyMean);
+            mean += GetMean(&qcosMean);
         }
     }
     end_time = clock();
