@@ -4,38 +4,33 @@
 #include "inc/MWQuickAlgorithm.h"
 #include "inc/MWSlowAlgorithm.h"
 
+#define TIMES 1000
+
 int main(int argc, char const *argv[]) {
-    clock_t non_optimized_code_time[1000], optimized_code_time[1000];
-    int16_t quickCosMean = 0, slowCosMean = 0, quickCosAcc = 0, slowCosAcc = 0;
-    double angles[MAX_COS_ITERATIONS];
+    clock_t non_optimized_code_time[TIMES], optimized_code_time[TIMES];
+    double quickPolyMean = 0, slowPolyMean = 0, quickPolyOld = 0, slowPolyOld = 0;
+    int32_t x[MAX_POLY_ITERATIONS];
 
-    srand(time(NULL));
+    for (int i = 0; i < TIMES; i++) {
+        //srand(time(NULL));
 
-    for (int i = 0; i < 1; i++) {
-        for (int j = 0; j < MAX_COS_ITERATIONS; j++) {
-            angles[j] = 359;//rand() % 360;
-            angles[j] = (angles[j]*0.017) - 3.14;
-            printf("Angle %d: %f\n", j, angles[j]);
+        for (int j = 0; j < MAX_POLY_ITERATIONS; j++) {
+            x[j] = j+1;//rand() % 100 + 1;
         }
 
-        non_optimized_code_time[i] = RunSlowAlgorithm(angles);
-        optimized_code_time[i] = RunQuickAlgorithm(angles);
+        non_optimized_code_time[i] = RunSlowAlgorithm(x);
+        optimized_code_time[i] = RunQuickAlgorithm(x);
     }
 
-    for (int i = 1; i <= 1000; i++) {
-        quickCosAcc += optimized_code_time[i-1];
-        slowCosAcc  += non_optimized_code_time[i-1];
+    for (int i = 1; i <= TIMES; i++) {
+        quickPolyMean += optimized_code_time[i-1]/(double)i - quickPolyOld/(double)i;
+        slowPolyMean  += non_optimized_code_time[i-1]/(double)i - slowPolyOld/(double)i;
 
-        if ((i % 10) == 0) {
-            quickCosMean = quickCosAcc/10;
-            slowCosMean  = slowCosAcc/10;
-
-            quickCosAcc = 0;
-            slowCosAcc  = 0;
-        }
+        quickPolyOld = optimized_code_time[i-1];
+        slowPolyOld  = non_optimized_code_time[i-1];
     }
 
-    printf("non_optimized_code_time: %d\noptimized_code_time: %d\nPercentage: %f%%", slowCosMean, quickCosMean, (float)(slowCosMean-quickCosMean)/slowCosMean);
+    printf("non_optimized_code_time: %f\noptimized_code_time: %f\nPercentage: %f%%", slowPolyMean, quickPolyMean, 100*(slowPolyMean-quickPolyMean)/slowPolyMean);
 
     return 0;
 }

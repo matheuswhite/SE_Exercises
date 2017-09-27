@@ -7,6 +7,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#define MAX_COS_ITERATIONS 1
+#define MAX_POLY_ITERATIONS 2048
 
 #endif

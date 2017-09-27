@@ -8,44 +8,41 @@ typedef struct {
     uint16_t numSamples;
 } Mean;
 
-void AddSampleToMean(Mean *mean, int16_t sample) {
+void AddSampleToMean(Mean *mean, int32_t sample) {
     mean->Mean += sample;
     ++(mean->numSamples);
 }
 
-int16_t GetMean(Mean *mean) {
+int32_t GetMean(Mean *mean) {
     if (mean->numSamples == 0) return 0;
 
-    int16_t finalMean = mean->Mean/mean->numSamples;
+    int32_t finalMean = mean->Mean/mean->numSamples;
     mean->Mean = 0; mean->numSamples = 0;
     return finalMean;
 }
 
-int32_t QuickCos(double rad) {
-    //1 - (x^2/720)*(360 + (x^2)*(30 - x^2))
-    int32_t rad2 = rad*rad;
-    int32_t temp = 30 - rad2;
-    temp = 360 + rad2*temp;
-    temp = 1 - ((rad2*2913)>>21)*temp;
+int32_t QuickPoly(int32_t x) {
+    //1 + (x^2/720)*(-360 + (x^2)*(30 - x^2))
+    int32_t x2 = x*x;
 
-    return temp;
+    return 1.0 + ((x2*2913)>>21)*(-360.0 + x2*(30.0 - x2));
 }
 
-clock_t RunQuickAlgorithm(double *angles) {
+clock_t RunQuickAlgorithm(int32_t *x) {
     clock_t start_time = 0, end_time = 0;
-    int16_t mean = 0;
-    int32_t qcos = 0;
-    Mean qcosMean;
+    int32_t mean = 0;
+    int32_t qpoly = 0;
+    Mean qpolyMean;
 
     start_time = clock();
-    for (int j = 0; j < MAX_COS_ITERATIONS; j++) {
-        //calc cos and add to mean
-        qcos = QuickCos(angles[j]);
-        printf("Qcos %f:\n", qcos);
-        AddSampleToMean(&qcosMean, qcos);
+    for (int j = 0; j < MAX_POLY_ITERATIONS; j++) {
+        //calc poly
+        qpoly = QuickPoly(x[j]);
+        //add qpoly to mean
+        AddSampleToMean(&qpolyMean, qpoly);
         //when j is divisible by 32, calc mean
-        if ((j & 31) == 0) {
-            mean += GetMean(&qcosMean);
+        if ((j & 63) == 0) {
+            mean += GetMean(&qpolyMean);
         }
     }
     end_time = clock();
