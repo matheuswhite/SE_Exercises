@@ -1,5 +1,19 @@
 #include "../inc/MWCommand.h"
 
+void MWParameterCreate(MWParameter *parameter, const char *parameterName) {
+    parameter->parameterName = parameterName;
+    parameter->param = 0;
+}
+
+void MWCommandCreate(MWCommand *command, MWCommandName name, MWReceiver receiver,
+                        const char *help, MWParameter *parameters, uint8_t amountOfParameters) {
+    command->name = name;
+    command->receiver = receiver;
+    command->help = help;
+    command->parameters = parameters;
+    command->amountOfParameters = amountOfParameters;
+}
+
 MWCommandName MWString2CommandName(const char *name) {
     if (strcmp(name, "BlinkLED") == 0) {
         return kBlinkLED;
