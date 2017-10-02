@@ -80,11 +80,11 @@ void user_init(void)
 
     MWParameterCreate(&blinkLEDParameters[0], "Frequency");
     MWParameterCreate(&buttonConfigParameters[0], "Action");
-    MWParameterCreate(&showVersionParameters[0], "");
+    MWParameterCreate(&showVersionParameters[0], "Test");
 
     MWCommandCreate(&_invoker[kBlinkLED], kBlinkLED, blinkLED, "Sets how often the LED will blink", blinkLEDParameters, 1);
     MWCommandCreate(&_invoker[kButtonConfig], kButtonConfig, buttonConfig, "Sets whether the button will enable or disable the blink LED", buttonConfigParameters, 1);
-    MWCommandCreate(&_invoker[kShowVersion], kShowVersion, showVersion, "Shows the version of current firmware", showVersionParameters, 0);
+    MWCommandCreate(&_invoker[kShowVersion], kShowVersion, showVersion, "Shows the version of current firmware", showVersionParameters, 1);
 
     //start tasks
     //xTaskCreate(blinkLEDTask, "blinkLEDTask", 256, NULL, 2, NULL);

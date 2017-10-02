@@ -29,7 +29,7 @@ typedef struct {
 void MWParameterCreate(MWParameter *parameter, const char *parameterName);
 void MWCommandCreate(MWCommand *command, MWCommandName name, MWReceiver receiver,
                         const char *help, MWParameter *parameters, uint8_t amountOfParameters);
-                        
+
 MWCommandName MWString2CommandName(const char *name);
 const char* MWCommandName2String(MWCommandName commandName);
 

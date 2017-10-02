@@ -2,7 +2,7 @@
 
 void MWParameterCreate(MWParameter *parameter, const char *parameterName) {
     parameter->parameterName = parameterName;
-    parameter->param = 0;
+    parameter->param = 0xBB;
 }
 
 void MWCommandCreate(MWCommand *command, MWCommandName name, MWReceiver receiver,

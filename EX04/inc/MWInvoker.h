@@ -7,6 +7,6 @@
 #define MAX_PARAMS 4
 #define MAX_INPUT  256
 
-uint8_t MWInvokerRun(MWCommand *invoker);
+uint8_t MWInvokerRun(MWCommand invoker[]);
 
 #endif

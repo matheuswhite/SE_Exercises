@@ -7,20 +7,28 @@
 
 static void readUARTString(char *buffer) {
     uint8_t index = 0;
-    int input = '\n';
+    int input;
 
-    while (index <= 255) {
+    buffer[0] = '\0';
+    while (index < 255) {
         input = uart_getc(0);
-        printf("Buffer: %s\n", buffer);
+        uart_putc(0, input);
 
-        if (input == '\n') {
+        if (input == '\r') {
             index = 0;
             break;
         }
         else {
             buffer[index] = input;
+            buffer[index+1] = '\0';
             ++index;
         }
+    }
+
+    printf("\n");
+
+    if (index > 255) {
+        printf("[ERROR] Max size of input = 256\n");
     }
 }
 
