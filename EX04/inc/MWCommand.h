@@ -16,19 +16,18 @@ typedef struct {
     uint8_t param;
 } MWParameter;
 
-typedef void (*MWReceiver)(MWParameter*);
+typedef void (*MWReceiver)(MWParameter);
 
 typedef struct {
     MWCommandName name;
     MWReceiver receiver;
     const char *help;
-    MWParameter *parameters;
-    uint8_t amountOfParameters;
+    MWParameter parameter;
 } MWCommand;
 
 void MWParameterCreate(MWParameter *parameter, const char *parameterName);
 void MWCommandCreate(MWCommand *command, MWCommandName name, MWReceiver receiver,
-                        const char *help, MWParameter *parameters, uint8_t amountOfParameters);
+                        const char *help, MWParameter parameter);
 
 MWCommandName MWString2CommandName(const char *name);
 const char* MWCommandName2String(MWCommandName commandName);

@@ -18,7 +18,7 @@ static uint8_t blinkLEDFrequency = 1;
 static uint8_t buttonConfigStatus = 0;
 static uint8_t isBlinkLEDEnable = 1;
 static uint8_t ledStatus = LOW;
-static MWCommand _invoker[kAmountOfCommands];
+static MWCommand invoker[kAmountOfCommands];
 
 //Tasks
 void blinkLEDTask(void *pvParameters) {
@@ -32,8 +32,7 @@ void blinkLEDTask(void *pvParameters) {
 
 void runInvokerTask(void *pvParameters) {
     while (1) {
-        printf("runInvokerTask\n");
-        MWInvokerRun(_invoker);
+        MWInvokerRun(invoker);
     }
 }
 
@@ -50,17 +49,17 @@ void listenButtonTask(void *pvParameters) {
 }
 
 //receiver functions
-void blinkLED(MWParameter *args) {
-    blinkLEDFrequency = args[0].param;
-    printf("Blinking LED at %dHz\n", args[0].param);
+void blinkLED(MWParameter arg) {
+    blinkLEDFrequency = arg.param;
+    printf("Blinking LED at %dHz\n", arg.param);
 }
 
-void buttonConfig(MWParameter *args) {
-    buttonConfigStatus = args[0].param;
-    printf("The button %s the blink LED\n", (args[0].param == 0) ? "disable" : "enable");
+void buttonConfig(MWParameter arg) {
+    buttonConfigStatus = arg.param;
+    printf("The button %s the blink LED\n", (arg.param == 0) ? "disable" : "enable");
 }
 
-void showVersion(MWParameter *args) {
+void showVersion(MWParameter arg) {
     printf("%d.%d.%d\n", MAJOR, MINOR, BUILD);
 }
 
@@ -74,20 +73,20 @@ void user_init(void)
     gpio_enable(LED_GPIO, GPIO_OUTPUT);
 
     //invoker config
-    MWParameter blinkLEDParameters[1];
-    MWParameter buttonConfigParameters[1];
-    MWParameter showVersionParameters[1];
+    MWParameter blinkLEDParameter;
+    MWParameter buttonConfigParameter;
+    MWParameter showVersionParameter;
 
-    MWParameterCreate(&blinkLEDParameters[0], "Frequency");
-    MWParameterCreate(&buttonConfigParameters[0], "Action");
-    MWParameterCreate(&showVersionParameters[0], "Test");
+    MWParameterCreate(&blinkLEDParameter, "Frequency");
+    MWParameterCreate(&buttonConfigParameter, "Action");
+    MWParameterCreate(&showVersionParameter, "");
 
-    MWCommandCreate(&_invoker[kBlinkLED], kBlinkLED, blinkLED, "Sets how often the LED will blink", blinkLEDParameters, 1);
-    MWCommandCreate(&_invoker[kButtonConfig], kButtonConfig, buttonConfig, "Sets whether the button will enable or disable the blink LED", buttonConfigParameters, 1);
-    MWCommandCreate(&_invoker[kShowVersion], kShowVersion, showVersion, "Shows the version of current firmware", showVersionParameters, 1);
+    MWCommandCreate(&invoker[kBlinkLED], kBlinkLED, blinkLED, "Sets how often the LED will blink", blinkLEDParameter);
+    MWCommandCreate(&invoker[kButtonConfig], kButtonConfig, buttonConfig, "Sets whether the button will enable or disable the blink LED", buttonConfigParameter);
+    MWCommandCreate(&invoker[kShowVersion], kShowVersion, showVersion, "Shows the version of current firmware", showVersionParameter);
 
     //start tasks
-    //xTaskCreate(blinkLEDTask, "blinkLEDTask", 256, NULL, 2, NULL);
+    xTaskCreate(blinkLEDTask, "blinkLEDTask", 256, NULL, 2, NULL);
     xTaskCreate(runInvokerTask, "runInvokerTask", 256, NULL, 2, NULL);
-    //xTaskCreate(listenButtonTask, "listenButtonTask", 256, NULL, 2, NULL);
+    xTaskCreate(listenButtonTask, "listenButtonTask", 256, NULL, 2, NULL);
 }

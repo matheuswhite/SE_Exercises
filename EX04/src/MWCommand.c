@@ -2,16 +2,15 @@
 
 void MWParameterCreate(MWParameter *parameter, const char *parameterName) {
     parameter->parameterName = parameterName;
-    parameter->param = 0xBB;
+    parameter->param = 0x00;
 }
 
 void MWCommandCreate(MWCommand *command, MWCommandName name, MWReceiver receiver,
-                        const char *help, MWParameter *parameters, uint8_t amountOfParameters) {
+                        const char *help, MWParameter parameter) {
     command->name = name;
     command->receiver = receiver;
     command->help = help;
-    command->parameters = parameters;
-    command->amountOfParameters = amountOfParameters;
+    command->parameter = parameter;
 }
 
 MWCommandName MWString2CommandName(const char *name) {

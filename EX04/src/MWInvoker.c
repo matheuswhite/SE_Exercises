@@ -4,26 +4,18 @@ uint8_t MWInvokerRun(MWCommand invoker[]) {
     char input[MAX_INPUT];
     MWCommandName commandName;
 
-    while(1)
-        printf("blinkLED: %x\n", invoker[kBlinkLED].parameters[0].param);
-        /*
     printf(">> ");
     readUARTString(input);
     commandName = MWString2CommandName(input);
-    printf("Pass:%d\n", __LINE__);
 
     if (commandName != kUnknow) {
-        for (uint8_t i = 0; i < invoker[commandName].amountOfParameters; i++) {
-            if (invoker[commandName].parameters[i].parameterName == NULL)
-                printf("Pass:%d\n", __LINE__);
-            printf("Pass:%d\n", __LINE__);
-            printf("%s: ", invoker[commandName].parameters[i].parameterName);
-            printf("Pass:%d\n", __LINE__);
+        if (strcmp(invoker[commandName].parameter.parameterName, "") != 0) {
+            printf("%s: ", invoker[commandName].parameter.parameterName);
             readUARTString(input);
-            invoker[commandName].parameters[i].param = atoi(input);
+            invoker[commandName].parameter.param = atoi(input);
         }
 
-        invoker[commandName].receiver(invoker[commandName].parameters);
+        invoker[commandName].receiver(invoker[commandName].parameter);
     }
     else {
         {printf("Please enter one of the commands below or Ctrl+C to exit\n\n");}
@@ -31,6 +23,6 @@ uint8_t MWInvokerRun(MWCommand invoker[]) {
             {printf("%s - %s\n", MWCommandName2String((MWCommandName)i), invoker[i].help);}
         }
     }
-    */
+
     return 1;
 }
