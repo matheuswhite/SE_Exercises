@@ -9,7 +9,7 @@ int main(int argc, char const *argv[]) {
     uint8_t data[] = {0x0, 0x1, 0x2, 0xa, 0xf};
     uint8_t data2[] = {0x9, 0x7, 0xc, 0x30, 0xd};
     uint8_t data3[] = {0x23, 0x8, 0xe, 0x5a, 0x81};
-    MWFirmwareVerision version = {MAJOR, MINOR, BUILD};
+    MWFirmwareVersion version = {MAJOR, MINOR, BUILD};
 
     MWLogInit(print);
     MWDeviceInit(device1, 80, 43, kConnected, data);

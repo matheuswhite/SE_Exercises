@@ -145,7 +145,7 @@ void MWDeviceSetBattery(MWDevice *device, uint8_t battery) {
     }
 
     if (battery > 100) {
-        MWLog(kDevice, kWarning, "Battery level greater than 100%%\nSetting battery level to 100%%");\
+        MWLog(kDevice, kWarning, "Battery level greater than 100%\nSetting battery level to 100%");\
         device->battery = 100;
     }
     else {
@@ -160,7 +160,7 @@ void MWDeviceSetSignalStrength(MWDevice *device, uint8_t signalStrength) {
     }
 
     if (signalStrength > 100) {
-        MWLog(kDevice, kWarning, "Signal strength level greater than 100%%\nSetting signal strength level to 100%%");
+        MWLog(kDevice, kWarning, "Signal strength level greater than 100%\nSetting signal strength level to 100%");
         device->signalStrength = 100;
     }
     else {

@@ -9,7 +9,7 @@ typedef struct {
     uint8_t major;
     uint8_t minor;
     uint16_t build;
-} MWFirmwareVerision;
+} MWFirmwareVersion;
 
 typedef enum {
     kDevice = 0,
@@ -30,6 +30,6 @@ void MWLog(MWLogSubSystem subsystem, MWLogLevel level, const char *message);
 void MWLogSetOutputLevel(MWLogSubSystem subsystem, MWLogLevel level);
 void MWLogGlobalOn();
 void MWLogGlobalOff();
-void MWLogVersion(MWFirmwareVerision *version);
+void MWLogVersion(MWFirmwareVersion *version);
 
 #endif /* end of include guard: MWLOGGING_H */

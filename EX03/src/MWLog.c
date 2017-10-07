@@ -62,7 +62,7 @@ void MWLogGlobalOff() {
     __isLogEnable = 0;
 }
 
-void MWLogVersion(MWFirmwareVerision *version) {
+void MWLogVersion(MWFirmwareVersion *version) {
     if (__logFunction == NULL || !__isLogEnable) return;
 
     char message[50];
