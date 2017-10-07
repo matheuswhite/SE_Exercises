@@ -12,7 +12,7 @@ endif
 
 CFLAGS = $(C_CXX_FLAGS) -std=gnu99 $(EXTRA_CFLAGS) -DMAJOR=$(MAJOR) -DMINOR=$(MINOR) -DBUILD=$(BUILD)
 
-include ./esp-open-rtos/common.mk
+include $(HOME)/esp-open-rtos/common.mk
 
 version:
 ifeq ($(wildcard version.build),)
